@@ -6,5 +6,9 @@ This repository hosts two Ironhack prework projects:
   
   2) Mars Rover Kata (JS)
   Status:
-  March 1st, 2018 - Mandatory features completed, missing 'Bonus: boundaries' and 'Bonus: Other suggested features'
+  March 12th, 2018 - Mandatory 100% completed
+  
+  Type 'grid' to  view the grid.
+  createObstacle(n) --> Will create n obstacles in the grid.
+  moveRover(rover,commands) --> Will move the rover position on the grid (f/b/r/l)
      
