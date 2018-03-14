@@ -25,7 +25,7 @@ var grid = new Array(10);
 for (var i = 0; i < 10; i++) {
   grid[i] = new Array(10);
   for (var j = 0; j <10; j++) {
-  	grid[i][j] = null;
+    grid[i][j] = null;
   }
 }
 grid[rover01.y][rover01.x] = rover01.name;
@@ -34,10 +34,11 @@ grid[rover02.y][rover02.x] = rover02.name;
 // ======================
 
 function moveRover(rover,commands){
-	
-	if (sanitizeInput(commands) === 0){
-  	for (var i = 0; i < commands.length; i++){
-    	switch (commands[i]){
+  
+  if (sanitizeInput(commands) === 0){
+    for (var i = 0; i < commands.length; i++){
+      switch (commands[i]){
+      
       case "f":
       grid[rover.y][rover.x] = null;
       moveForward(rover);
@@ -45,8 +46,9 @@ function moveRover(rover,commands){
       break;
 
       case "b":
+      grid[rover.y][rover.x] = null;
       moveBackwards(rover);
-      (rover.travelLog).push([rover.x,rover.y]);
+      grid[rover.y][rover.x] = rover.name;
       break;
 
       case "l":
@@ -57,13 +59,12 @@ function moveRover(rover,commands){
       turnRight(rover);
       break;
     }
-	}
+  }
   
-
+  console.log("\n\n* * * *    T R A V E L  L O G    * * * *\n\nCommands: " + commands + "\nThe rover has visited " + (rover.travelLog.length) + " square(s)");
   printPositions(rover);
-  console.log("The rover has visited " + (rover.travelLog.length) + " squares:");
 
-	}
+  }
 }
 function turnLeft(rover){
   switch (rover.direction){
@@ -117,7 +118,7 @@ function moveForward(rover){
 
       }
       else if (rover.y == 9){
-        console.log("AAvoided going out of bounds (South)");
+        console.log("Avoided going out of bounds (South)");
       }
       break;
 
@@ -149,7 +150,7 @@ function moveForward(rover){
 function moveBackwards(rover){
   switch (rover.direction){
     case "N": 
-      if (rover.y > 0 && checkImpactBack(rover) === false){
+      if (rover.y > 9 && checkImpactBack(rover) === false){
         rover.y = rover.y + 1;
         (rover.travelLog).push([rover.x,rover.y]);
 
@@ -160,18 +161,18 @@ function moveBackwards(rover){
       break;
 
     case "S":
-      if (rover.y < 9 && checkImpactBack(rover) === false){ 
+      if (rover.y > 1 && checkImpactBack(rover) === false){ 
         rover.y = rover.y - 1;
         (rover.travelLog).push([rover.x,rover.y]);
 
       }
       else if (rover.y == 0){
-        console.log("AAvoided going out of bounds (South)");
+        console.log("Avoided going out of bounds (South)");
       }
       break;
 
     case "E": 
-      if (rover.x < 9 && checkImpactBack(rover) === false){
+      if (rover.x > 0 && checkImpactBack(rover) === false){
        rover.x = rover.x - 1;
        (rover.travelLog).push([rover.x,rover.y]);
 
@@ -182,7 +183,7 @@ function moveBackwards(rover){
       break;
 
     case "W": 
-    if (rover.x > 0 && checkImpactBack(rover) === false){
+    if (rover.x < 9 && checkImpactBack(rover) === false){
       rover.x = rover.x + 1;
       (rover.travelLog).push([rover.x,rover.y]);
       }
@@ -196,32 +197,32 @@ function moveBackwards(rover){
 }
 
 function sanitizeInput(commands){
-	for (var i = 0; i<commands.length; i++){
-		switch (commands[i]){
-			 case "f": case "b": case "r": case "l":
-			 break;
-			 
-			 default:
-			 	console.log('>>>> Input error: Command sequence aborted!\nYou can only use (f)ront, (b)ack, (l)eft or (r)ight.')
-			 return 1;
-		}
-	}
-	return 0;
+  for (var i = 0; i<commands.length; i++){
+    switch (commands[i]){
+       case "f": case "b": case "r": case "l":
+       break;
+       
+       default:
+        console.log('>>>> Input error: Command sequence aborted!\nYou can only use (f)ront, (b)ack, (l)eft or (r)ight.')
+       return 1;
+    }
+  }
+  return 0;
 
 }
 function createObstacle(number){
-	for (var i = 0; i < number; i++){
-		var randA = Math.floor(Math.random() * 10);
-		var randB = Math.floor(Math.random() * 10);
-		grid[randA][randB] = '--';
-	}
+  for (var i = 0; i < number; i++){
+    var randA = Math.floor(Math.random() * 10);
+    var randB = Math.floor(Math.random() * 10);
+    grid[randA][randB] = '--';
+  }
 }
 function printPositions(rover){
-  console.log('Travel log for ' + rover.name + ' is:\n');
+  console.log('This is the travel log for rover ' + rover.name + ':\n');
   rover.travelLog.forEach(function(entry){
-   console.log('Went through: ' + entry);
+   console.log('---> ' + entry);
  });
- 
+ console.log('\n\n*  E N D    O F    T R A V E L  L O G   *\n\n')
 }
 
 function checkImpact(rover){
